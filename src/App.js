@@ -1,9 +1,9 @@
 import * as React from "react"
 import DataSelection from "./DataSelection/DataSelection";
 import DataDisplay from "./DataDisplay/DataDisplay";
-import Calendar from "./CalendarDisplay";
 import { createTheme, ThemeProvider, Divider } from '@mui/material';
 import { getDejPrice, getMealPrice } from "./utils/pricesCalc";
+import About from "./About/about";
 
 function App() {
   const darktheme = createTheme({
@@ -54,6 +54,8 @@ function App() {
       <DataSelection menuChange={setMenu} moneyChange={setMoney} mealsChange={setMeals} />
       <Divider sx={{margin: 1}} />
       <DataDisplay mealPrices={mealPrices} total={total} remaining={remaining} menu={menu}/>
+      <Divider sx={{margin: 1}} />
+      <About />
     </ThemeProvider>
 
     );
