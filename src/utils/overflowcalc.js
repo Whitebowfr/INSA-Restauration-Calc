@@ -3,15 +3,15 @@ import { getDejPrice, getMealPrice } from "./pricesCalc"
 const data = [
     {
         price: 1.87,
-        label: "Acheter X cookies"
+        label: "Acheter X cookie$s"
     },
     {
         price: 1.40,
-        label: "Acheter X cannettes"
+        label: "Acheter X cannette$s"
     },
     {
         price: 4,
-        label: "Acheter X croque-monsieurs/paninis"
+        label: "Acheter X croque-monsieur$s/panini$s"
     },
     {
         price: "dej",
@@ -33,7 +33,7 @@ export function getOFPossibilitesAsList(remaining, menu, isGoingToPtA) {
             amount = Math.floor(remaining / (x.price === "dej" ? getDejPrice(menu) : getMealPrice(menu)))
         }
         if (amount > 0 && (!isGoingToPtA || x.price !== "dej")) {
-            returnString += "- " + x.label.replace('X', amount) + "\n"
+            returnString += "- " + x.label.replace('X', amount).replaceAll((amount > 1 ? '$' : '$s'), '') + "\n"
         }
     })
     return returnString
@@ -48,7 +48,7 @@ export function getNEGPossibilitesAsList(remaining, menu, dejNumber) {
         if (dejAmount > dejNumber) {
             let stillMissing = (dejAmount - dejNumber) * getDejPrice(menu)
             let mealAmount = Math.ceil(stillMissing / getMealPrice(menu))
-            returnString += " - Ne pas aller au point A du tout et ne pas aller au RI " + mealAmount + " fois (F)\n" 
+            returnString += " - Ne pas aller au point A du tout et ne pas aller au RI " + mealAmount + " fois\n" 
         } else {
             returnString += "- Ne pas aller au point A " + dejAmount + " fois\n"
         }
