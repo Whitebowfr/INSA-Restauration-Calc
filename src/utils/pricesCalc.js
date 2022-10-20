@@ -30,7 +30,6 @@ const menuData = {
     "7": [251.72,170.81,260.71,125.86,206.77,188.79,0.00,0.00,161.82,233.74,188.79,134.85]
 }
 export function getTotalMoney(menu) {
-    console.log(menu)
     let currentMonth = new Date().getMonth()
     return menuData[menu][currentMonth] ?? 0
 }

@@ -42,7 +42,7 @@ export default function MealSelection({ handleChange, menuSelected, vacations })
 
     React.useEffect(() => {
         calculateMeals(selected)
-    }, [vacations])
+    }, [vacations, selected])
 
     const calculateMeals = (sel) => {
         let total = [0, 0]
@@ -77,7 +77,7 @@ export default function MealSelection({ handleChange, menuSelected, vacations })
                         <TableCell>{x}</TableCell>
                         <TableCell><Checkbox checked={selected[x][0]} onChange={e => onSecondaryChange(e, x, 'all')}/></TableCell>
                         <TableCell><Checkbox checked={selected[x][1]} onChange={e => onSecondaryChange(e, x, 'week')}/></TableCell>
-                        <TableCell><Checkbox checked={selected[x][2] && menuSelected != '5'} disabled={menuSelected === '5'} onChange={e => onSecondaryChange(e, x, 'we')} /></TableCell>
+                        <TableCell><Checkbox checked={selected[x][2] && menuSelected !== '5'} disabled={menuSelected === '5'} onChange={e => onSecondaryChange(e, x, 'we')} /></TableCell>
                     </TableRow>
                 ))}
             </TableBody>
