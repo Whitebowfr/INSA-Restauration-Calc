@@ -14,7 +14,7 @@ export default function DataSelection({ menuChange, mealsChange, moneyChange}) {
     }
     
     const handleMoneyChange = (e) => {
-        moneyChange(e.target.value)
+        moneyChange(e)
     }
 
     const handleMealChange = (e) => {
@@ -23,7 +23,7 @@ export default function DataSelection({ menuChange, mealsChange, moneyChange}) {
 
     return (<Paper elevation={12} sx={{ padding: 1 }}>
         <MenuSelect handleChange={handleMenuChange} handleVacChange={e => setVacations(e)} />
-        <MoneyInput handleChange={handleMoneyChange}/>
+        <MoneyInput handleChange={handleMoneyChange} menu={currentMenu}/>
         <MealSelection handleChange={handleMealChange} menuSelected={currentMenu} vacations={vacations}/>
     </Paper>)
 }
