@@ -4,6 +4,8 @@ import DataDisplay from "./DataDisplay/DataDisplay";
 import { createTheme, ThemeProvider, Divider } from '@mui/material';
 import { getDejPrice, getMealPrice } from "./utils/pricesCalc";
 import About from "./About/about";
+import useLocalStorage from "./utils/localStorage";
+import HoursSelection from "./DataSelection/HoursSelection";
 
 function App() {
   const darktheme = createTheme({
@@ -12,17 +14,23 @@ function App() {
     }
   })
 
-  const [menu, setMenu] = React.useState('5*')
-  const [money, setMoney] = React.useState(0)
-  const [meals, setMeals] = React.useState([0, 0])
+  const [menu, setMenu] = useLocalStorage("menu", "5*")
+  const [money, setMoney] = useLocalStorage("money", 0)
+  const [meals, setMeals] = useLocalStorage("meals", [0, 0])
   
-  const [mealPrices, setMealPrices] = React.useState([])
+  const [mealPrices, setMealPrices] = useLocalStorage("mealPrices", [])
 
-  const [total, setTotal] = React.useState({
+  const [total, setTotal] = useLocalStorage("total", {
     price: 0,
     number: 0
   })
-  const [remaining, setRemaining] = React.useState(0)
+  const [remaining, setRemaining] = useLocalStorage("remaining", 0)
+
+  const [hours, setHours] = useLocalStorage("hours", {diner: "18:15", breakfast: "12:15", disabled: false})
+
+  React.useEffect(() => {
+    setHours(hours)
+  }, [])
 
 
   React.useEffect(() => {
@@ -51,7 +59,12 @@ function App() {
 
   return (
     <ThemeProvider theme={darktheme}>
-      <DataSelection menuChange={setMenu} moneyChange={setMoney} mealsChange={setMeals} />
+      <DataSelection menuChange={setMenu} moneyChange={setMoney} mealsChange={setMeals} hours={hours} />
+      <Divider sx={{margin: 1}} />
+      <HoursSelection callback={(h) => {
+        console.log(h)
+        setHours(h)
+      }}/>
       <Divider sx={{margin: 1}} />
       <DataDisplay mealPrices={mealPrices} total={total} remaining={remaining} menu={menu}/>
       <Divider sx={{margin: 1}} />

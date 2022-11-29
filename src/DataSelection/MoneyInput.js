@@ -1,9 +1,10 @@
 import * as React from "react"
 import { TextField, Box, InputAdornment } from "@mui/material"
 import { getTotalMoney } from "../utils/pricesCalc"
+import useLocalStorage from "../utils/localStorage"
 
 export default function MoneyInput({ handleChange, menu }) {
-    const [money, setMoney] = React.useState(0)
+    const [money, setMoney] = useLocalStorage("money", 0)
     const [hasChanged, setChange] = React.useState(false)
 
     const handleMoneyChange = (e) => {
@@ -13,7 +14,7 @@ export default function MoneyInput({ handleChange, menu }) {
     }
 
     React.useEffect(() => {
-        if ((!money && menu) || !hasChanged) {
+        if ((!money && menu) || !hasChanged && !localStorage.getItem("money")) {
             setMoney(getTotalMoney(menu))
             handleChange(getTotalMoney(menu))
         }

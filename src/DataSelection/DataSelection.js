@@ -3,10 +3,11 @@ import { Paper } from "@mui/material"
 import MenuSelect from "./MenuSelection"
 import MoneyInput from "./MoneyInput"
 import MealSelection from "./MealSelection"
+import useLocalStorage from "../utils/localStorage"
 
-export default function DataSelection({ menuChange, mealsChange, moneyChange}) {
-    const [currentMenu, changeMenu] = React.useState('5*')
-    const [vacations, setVacations] = React.useState(false)
+export default function DataSelection({ menuChange, mealsChange, moneyChange, hours }) {
+    const [currentMenu, changeMenu] = React.useState(localStorage.getItem("menu") ?? "5*")
+    const [vacations, setVacations] = useLocalStorage("vacations", false)
 
     const handleMenuChange = (e) => {
         changeMenu(e.target.value)
@@ -24,6 +25,6 @@ export default function DataSelection({ menuChange, mealsChange, moneyChange}) {
     return (<Paper elevation={12} sx={{ padding: 1 }}>
         <MenuSelect handleChange={handleMenuChange} handleVacChange={e => setVacations(e)} />
         <MoneyInput handleChange={handleMoneyChange} menu={currentMenu}/>
-        <MealSelection handleChange={handleMealChange} menuSelected={currentMenu} vacations={vacations}/>
+        <MealSelection handleChange={handleMealChange} menuSelected={currentMenu} vacations={vacations} hours={hours}/>
     </Paper>)
 }

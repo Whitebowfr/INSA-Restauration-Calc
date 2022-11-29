@@ -16,7 +16,7 @@ export default function MenuSelect({ handleChange, handleVacChange }) {
                     id="menu-selection"
                     label="Menu"
                     onChange={handleChange}
-                    defaultValue="5*"
+                    defaultValue={localStorage.getItem('menu') ?? "5*"}
                 >
                     <MenuItem value={"5"}>5/7</MenuItem>
                     <MenuItem value={"5*"}>5/7 Liberté</MenuItem>
@@ -28,7 +28,7 @@ export default function MenuSelect({ handleChange, handleVacChange }) {
             display: 'inline',
             marginLeft: 1
         }}>
-            <FormControlLabel label="Inclure les vacances" control={<Checkbox onChange={e => handleVacChange(e.target.checked)} />}/>
+            <FormControlLabel label="Inclure les vacances" control={<Checkbox onChange={e => handleVacChange(e.target.checked)} checked={Boolean(localStorage.getItem("vacations")) ?? false} />}/>
             
         </Box>
     </React.Fragment>)
