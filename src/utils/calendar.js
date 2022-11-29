@@ -31,11 +31,26 @@ const vacations = [
     [1684533600000, 1694988000000]
 ]
 
-function checkForVacation(date) {
+export function checkForVacation(date) {
     let dateTimeStamp = date.getTime()
     let flag = false
     vacations.forEach(arr => {
         if (dateTimeStamp > arr[0] && dateTimeStamp < arr[1]) flag = true
     })
     return flag
+}
+
+export function isAWeekDay(date) {
+    return !(date.getDay() === 6 || date.getDay() === 1)
+}
+
+export function hasHourPassed(date, hour) {
+    let datee = new Date(date)
+    if (datee.getHours() > parseInt(hour.split(":")[0])) {
+        return true
+    } else if (datee.getHours() === parseInt(hour.split(":")[0]) && datee.getMinutes() > parseInt(hour.split(":")[0])) {
+       return true
+   } else {
+       return false
+   }
 }
