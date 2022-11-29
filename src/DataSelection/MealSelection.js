@@ -1,22 +1,23 @@
 import * as React from "react"
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Checkbox, Paper } from "@mui/material"
-import { getDaysTillEndOfMonth } from "../utils/calendar"
+import { getDaysTillEndOfMonth, isAWeekDay, hasHourPassed } from "../utils/calendar"
+import useLocalStorage from "../utils/localStorage"
 
 const rows = [
     "Petit déjeuner",
     "Déjeuner",
-    "Dîner"   
+    "Dîner"
 ]
 
-export default function MealSelection({ handleChange, menuSelected, vacations }) {
-    const [selected, setSelected] = React.useState({
+export default function MealSelection({ handleChange, menuSelected, vacations, hours }) {
+    const [selected, setSelected] = useLocalStorage("mealSelected", {
         "Petit déjeuner": [false, false, false],
         "Déjeuner": [false, false, false],
         "Dîner": [false, false, false]
     })
 
     const onSecondaryChange = (event, type, date) => {
-        let sel = {...selected}
+        let sel = { ...selected }
         switch (date) {
             case 'all':
                 const setAllTo = event.target.checked
@@ -28,7 +29,7 @@ export default function MealSelection({ handleChange, menuSelected, vacations })
             case 'we':
                 sel[type][2] = event.target.checked
                 break;
-            default :
+            default:
                 console.error("Type not found : " + date)
                 break;
         }
@@ -36,15 +37,15 @@ export default function MealSelection({ handleChange, menuSelected, vacations })
             sel[type][0] = sel[type][1]
         }
 
-        calculateMeals(sel)
+        calculateMeals(sel, hours)
         setSelected(sel)
     }
 
     React.useEffect(() => {
-        calculateMeals(selected)
-    }, [vacations, selected])
+        calculateMeals(selected, hours)
+    }, [vacations, selected, hours])
 
-    const calculateMeals = (sel) => {
+    const calculateMeals = (sel, hours) => {
         let total = [0, 0]
         let weekDays = getDaysTillEndOfMonth('week', vacations)
         let weekEndDays = getDaysTillEndOfMonth('we', vacations)
@@ -54,10 +55,22 @@ export default function MealSelection({ handleChange, menuSelected, vacations })
 
         if (sel["Déjeuner"][1]) total[1] += weekDays
         if (sel["Déjeuner"][2]) total[1] += weekEndDays
+        if (hours && !hours.disabled && !hasHourPassed(new Date(), hours.breakfast) 
+            && ((isAWeekDay(new Date()) && sel["Déjeuner"][1]) 
+                || (!isAWeekDay(new Date()) && sel["Déjeuner"][2])
+               )) {
+            total[1] += 1
+        }
 
         if (sel["Dîner"][1]) total[1] += weekDays
         if (sel["Dîner"][2]) total[1] += weekEndDays / 2
 
+        if (hours && !hours.disabled && !hasHourPassed(new Date(), hours.diner) 
+            && ((isAWeekDay(new Date()) && sel["Dîner"][1]) 
+            || (!isAWeekDay(new Date()) && sel["Dîner"][2])
+            )) {
+            total[1] += 1
+        }
         handleChange(total)
     }
 
@@ -75,8 +88,8 @@ export default function MealSelection({ handleChange, menuSelected, vacations })
                 {rows.map(x => (
                     <TableRow key={x}>
                         <TableCell>{x}</TableCell>
-                        <TableCell><Checkbox checked={selected[x][0]} onChange={e => onSecondaryChange(e, x, 'all')}/></TableCell>
-                        <TableCell><Checkbox checked={selected[x][1]} onChange={e => onSecondaryChange(e, x, 'week')}/></TableCell>
+                        <TableCell><Checkbox checked={selected[x][0]} onChange={e => onSecondaryChange(e, x, 'all')} /></TableCell>
+                        <TableCell><Checkbox checked={selected[x][1]} onChange={e => onSecondaryChange(e, x, 'week')} /></TableCell>
                         <TableCell><Checkbox checked={selected[x][2] && menuSelected !== '5'} disabled={menuSelected === '5'} onChange={e => onSecondaryChange(e, x, 'we')} /></TableCell>
                     </TableRow>
                 ))}
