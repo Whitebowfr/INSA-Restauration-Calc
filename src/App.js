@@ -61,10 +61,7 @@ function App() {
     <ThemeProvider theme={darktheme}>
       <DataSelection menuChange={setMenu} moneyChange={setMoney} mealsChange={setMeals} hours={hours} />
       <Divider sx={{margin: 1}} />
-      <HoursSelection callback={(h) => {
-        console.log(h)
-        setHours(h)
-      }}/>
+      <HoursSelection callback={setHours}/>
       <Divider sx={{margin: 1}} />
       <DataDisplay mealPrices={mealPrices} total={total} remaining={remaining} menu={menu}/>
       <Divider sx={{margin: 1}} />
