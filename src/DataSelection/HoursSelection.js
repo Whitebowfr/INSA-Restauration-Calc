@@ -2,8 +2,8 @@ import * as React from "react"
 import { Divider, Paper, TextField, Checkbox, FormControlLabel } from "@mui/material"
 import useLocalStorage from "../utils/localStorage"
 export default function HoursSelection({ callback }) {
-    const [breakfastVal, setBreakFastVal] = React.useState(JSON.parse(localStorage.getItem("hours")).breakfast)
-    const [dinerVal, setDinerVal] = React.useState(JSON.parse(localStorage.getItem("hours")).diner)
+    const [breakfastVal, setBreakFastVal] = React.useState(JSON.parse(localStorage.getItem("hours"))?.breakfast ?? "12:15")
+    const [dinerVal, setDinerVal] = React.useState(JSON.parse(localStorage.getItem("hours"))?.diner ?? "18:15")
     const [disabledTextField, setDisabled] = useLocalStorage("countToday", false)
 
     React.useEffect(() => {
