@@ -1,3 +1,8 @@
+/**
+ * @param {"week"|"we"} type Permet de choisir si l'on veut le nombre de jours de semaine ou de week-end
+ * @param {Boolean} includesVacations 
+ * @returns {Number} (In)
+ */
 export function getDaysTillEndOfMonth(type, includesVacations) {
     let dateToday = new Date()
     dateToday.setDate(dateToday.getDate() + 1)
@@ -31,6 +36,10 @@ const vacations = [
     [1684533600000, 1694988000000]
 ]
 
+/**
+ * @param {Date} date La date à vérifier
+ * @returns {Boolean} Si cette date est dans les vacances de l'INSA.
+ */
 export function checkForVacation(date) {
     let dateTimeStamp = date.getTime()
     let flag = false
@@ -40,15 +49,24 @@ export function checkForVacation(date) {
     return flag
 }
 
+/**
+ * @param {Date} date Le jour à vérifier
+ * @returns {Boolean} False si c'est un dimanche ou un samedi, True sinon.
+ */
 export function isAWeekDay(date) {
     return !(date.getDay() === 6 || date.getDay() === 1)
 }
 
+/**
+ * @param {Date|String} date La date actuelle, à comparer avec l'heure
+ * @param {String} hour L'heure de référence, au format HH:mm
+ * @returns {Boolean}
+ */
 export function hasHourPassed(date, hour) {
     let datee = new Date(date)
     if (datee.getHours() > parseInt(hour.split(":")[0])) {
         return true
-    } else if (datee.getHours() === parseInt(hour.split(":")[0]) && datee.getMinutes() > parseInt(hour.split(":")[0])) {
+    } else if (datee.getHours() === parseInt(hour.split(":")[0]) && datee.getMinutes() > parseInt(hour.split(":")[1])) {
        return true
    } else {
        return false
