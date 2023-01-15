@@ -18,7 +18,7 @@ const data = [
         label: "Aller X fois au point A"
     },
     {
-        price: "meal",
+        price: 5.83,
         label: "Doubler X fois au RI"
     }
 ]
