@@ -16,7 +16,7 @@ export default function MenuSelect({ handleChange, handleVacChange }) {
                     id="menu-selection"
                     label="Menu"
                     onChange={handleChange}
-                    defaultValue={localStorage.getItem('menu').replaceAll('"', '') ?? "5*"}
+                    defaultValue={localStorage.getItem('menu')?.replaceAll('"', '') ?? "5*"}
                 >
                     <MenuItem value={"5"}>5/7</MenuItem>
                     <MenuItem value={"5*"}>5/7 Liberté</MenuItem>
