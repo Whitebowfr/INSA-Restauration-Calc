@@ -4,6 +4,7 @@ import MenuSelect from "./MenuSelection"
 import MoneyInput from "./MoneyInput"
 import MealSelection from "./MealSelection"
 import useLocalStorage from "../utils/localStorage"
+import { getTotalMoney } from "../utils/pricesCalc"
 
 export default function DataSelection({ menuChange, mealsChange, moneyChange, hours }) {
     const [currentMenu, changeMenu] = React.useState(localStorage.getItem("menu") ?? "5*")
@@ -15,7 +16,11 @@ export default function DataSelection({ menuChange, mealsChange, moneyChange, ho
     }
     
     const handleMoneyChange = (e) => {
-        moneyChange(e)
+        if (parseInt(e) >= 0) {
+            moneyChange(e)
+        } else {
+            moneyChange(getTotalMoney(currentMenu))
+        }
     }
 
     const handleMealChange = (e) => {
