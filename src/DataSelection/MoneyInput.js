@@ -1,5 +1,6 @@
 import * as React from "react"
-import { TextField, Box, InputAdornment } from "@mui/material"
+import { TextField, Box, InputAdornment, IconButton, Icon } from "@mui/material"
+import CancelIcon from '@mui/icons-material/Cancel';
 import { getTotalMoney } from "../utils/pricesCalc"
 import useLocalStorage from "../utils/localStorage"
 
@@ -21,6 +22,11 @@ export default function MoneyInput({ handleChange, menu }) {
         if (!money && menu) setChange(false)
     }, [menu])
 
+    const clearMoney = () => {
+        setMoney("")
+        handleChange("")
+    }
+
     return (<Box 
     autoComplete="off" 
     component="form"
@@ -32,11 +38,18 @@ export default function MoneyInput({ handleChange, menu }) {
             fullWidth
             label="Quantité d'argent restante" 
             onChange={handleMoneyChange}
+            placeholder={getTotalMoney(menu).toString()}
             value={money}
             type="number"
             InputProps={{
-                 endAdornment: <InputAdornment position="end">€</InputAdornment>
+                endAdornment: <React.Fragment>
+                                <InputAdornment position="end">€</InputAdornment>
+                                <IconButton onClick={clearMoney}>
+                                    <CancelIcon/>
+                                </IconButton>
+                            </React.Fragment>
             }}
+            
             />
     </Box>)
 }
