@@ -31,5 +31,6 @@ const menuData = {
 }
 export function getTotalMoney(menu) {
     let currentMonth = new Date().getMonth()
+    menu = menu.replaceAll('"', '')
     return menuData[menu][currentMonth] ?? 0
 }
