@@ -5,7 +5,7 @@ import { createTheme, ThemeProvider, Divider } from '@mui/material';
 import { getDejPrice, getMealPrice } from "./utils/pricesCalc";
 import About from "./About/about";
 import useLocalStorage from "./utils/localStorage";
-import HoursSelection from "./DataSelection/HoursSelection";
+import HoursSelection from "./HoursSelection/HoursSelection";
 
 function App() {
   const darktheme = createTheme({
